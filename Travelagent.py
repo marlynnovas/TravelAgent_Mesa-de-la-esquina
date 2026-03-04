@@ -18,7 +18,6 @@ def get_country_kpi():
         print("Country not found.")
         return
 
-    # Extract main fields
     name = country["name"]["official"]
     capital = country.get("capital", ["N/A"])[0]
     region = country.get("region", "N/A")
@@ -27,14 +26,12 @@ def get_country_kpi():
     timezones = ", ".join(country.get("timezones", []))
     flag = country.get("flags", {}).get("png", "N/A")
 
-    # First currency
     currencies = country.get("currencies", {})
     if currencies:
         first_currency = list(currencies.values())[0].get("name", "N/A")
     else:
         first_currency = "N/A"
 
-    # Languages
     languages = country.get("languages", {})
     if languages:
         lang_list = [v if isinstance(v, str) else v.get("name","N/A") for v in languages.values()]
@@ -42,7 +39,6 @@ def get_country_kpi():
     else:
         languages_str = "N/A"
 
-    # Print KPIs
     print("\n===== COUNTRY Information =====")
     print(f"Name: {name}")
     print(f"Capital: {capital}")
