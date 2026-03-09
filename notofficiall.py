@@ -1,5 +1,5 @@
 #flet Stock Market APP with live Data - ALPHA VANTAGE API
-import flet as ft
+import notofficialll as ft
 import requests
 from config import API_KEY
 # MAIN FLET INTERFACE --> FUNCTION BASED 
