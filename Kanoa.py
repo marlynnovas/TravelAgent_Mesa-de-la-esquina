@@ -84,6 +84,7 @@ def main(page: ft.Page):
 
         response = requests.get(BASE_URL)
         countries = response.json()
+        
         # YOUR EXACT MATCHING LOGIC
         country = next(
             (c for c in countries if country_name in (
