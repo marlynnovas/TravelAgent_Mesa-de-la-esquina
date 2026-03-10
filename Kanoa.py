@@ -106,3 +106,99 @@ def main(page: ft.Page):
 
         error_box.current.visible = False
 
+        name = country["name"]["official"]
+        capital = country.get("capital", ["N/A"])[0]
+        region = country.get("region", "N/A")
+        subregion = country.get("subregion", "N/A")
+        population = country.get("population", 0)
+        timezones = ", ".join(country.get("timezones", []))
+
+        currencies = country.get("currencies", {})
+        if currencies:
+            first_currency = list(currencies.values())[0].get("name", "N/A")
+        else:
+            first_currency = "N/A"
+
+        languages = country.get("languages", {})
+        if languages:
+            lang_list = [v if isinstance(v, str) else v.get("name","N/A") for v in languages.values()]
+            languages_str = ", ".join(lang_list)
+        else:
+            languages_str = "N/A"
+
+        info_section.current.content = ft.Column([
+
+            ft.Text(f"Country: {name}",
+                    size=28,
+                    weight=ft.FontWeight.BOLD,
+                    color=ft.Colors.BLUE_700),
+
+            ft.Text(f"Date Range Selected: {selected_range}",
+                    size=14,
+                    color=ft.Colors.GREY_700),
+
+            ft.Divider(),
+
+            ft.Row([
+
+                
+                ft.Container(
+                    content=ft.Column([
+                        ft.Text("Capital", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(capital, size=18, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
+                    bgcolor=ft.Colors.BLUE_50,
+                    border_radius=12,
+                    expand=True
+                ),
+
+                
+                ft.Container(
+                    content=ft.Column([
+                        ft.Text("Region / Subregion", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(f"{region} / {subregion}", size=18, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
+                    bgcolor=ft.Colors.GREEN_50,
+                    border_radius=12,
+                    expand=True
+                ),
+
+                
+                ft.Container(
+                    content=ft.Column([
+                        ft.Text("Population", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(f"{population:,}", size=18, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
+                    bgcolor=ft.Colors.RED_50,
+                    border_radius=12,
+                    expand=True
+                ),
+
+                
+                ft.Container(
+                    content=ft.Column([
+                        ft.Text("Currency", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(first_currency, size=18, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
+                    bgcolor=ft.Colors.PURPLE_50,
+                    border_radius=12,
+                    expand=True
+                ),
+
+                
+
+            ], spacing=15),
+
+            ft.Container(height=15),
+
+            ft.Text(f"Languages: {languages_str}", size=14),
+            ft.Text(f"Time Zones: {timezones}", size=14),
+
+        ], spacing=15)
+
+        info_section.current.visible = True
+        page.update()
