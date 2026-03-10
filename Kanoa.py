@@ -1,2 +1,1 @@
-import flet as ft
-import requests
+import flet as fts
