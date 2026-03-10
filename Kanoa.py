@@ -32,3 +32,6 @@ def get_country_kpi():
         first_currency = list(currencies.values())[0].get("name", "N/A")
     else:
         first_currency = "N/A"
+
+
+#klk
