@@ -213,7 +213,7 @@ def main(page: ft.Page):
         info_section.current.visible = True
         page.update()
 
-    # ===== UI DESIGN =====
+    # ===== UI DESIGN ===== 
     page.add(
 
         ft.Column([
