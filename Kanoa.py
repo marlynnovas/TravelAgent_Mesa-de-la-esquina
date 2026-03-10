@@ -84,4 +84,24 @@ def main(page: ft.Page):
 
         response = requests.get(BASE_URL)
         countries = response.json()
+        # YOUR EXACT MATCHING LOGIC
+        country = next(
+            (c for c in countries if country_name in (
+                c.get("name", {}).get("official", "").lower(),
+                c.get("name", {}).get("common", "").lower()
+            )),
+            None
+        )
+
+        if not country:
+            error_box.current.content = ft.Text(
+                "Country not found.",
+                color=ft.Colors.RED
+            )
+            error_box.current.visible = True
+            info_section.current.visible = False
+            page.update()
+            return
+
+        error_box.current.visible = False
 
