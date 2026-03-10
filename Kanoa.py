@@ -14,3 +14,21 @@ def get_country_kpi():
                                                   c.get("name", {}).get("common", "").lower())),
         None
     )
+
+    if not country:
+        print("Country not found.")
+        return
+
+    name = country["name"]["official"]
+    capital = country.get("capital", ["N/A"])[0]
+    region = country.get("region", "N/A")
+    subregion = country.get("subregion", "N/A")
+    population = country.get("population", 0)
+    timezones = ", ".join(country.get("timezones", []))
+    flag = country.get("flags", {}).get("png", "N/A")
+
+    currencies = country.get("currencies", {})
+    if currencies:
+        first_currency = list(currencies.values())[0].get("name", "N/A")
+    else:
+        first_currency = "N/A"
