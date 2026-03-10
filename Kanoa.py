@@ -202,3 +202,5 @@ def main(page: ft.Page):
 
         info_section.current.visible = True
         page.update()
+
+    
