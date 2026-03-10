@@ -32,8 +32,15 @@ def get_country_kpi():
         first_currency = list(currencies.values())[0].get("name", "N/A")
     else:
         first_currency = "N/A"
+        print("\n===== COUNTRY Information =====")
+        print("\n===== COUNTRY Information =====")
+    print(f"Name: {name}")
+    print(f"Capital: {capital}")
+    print(f"Region / Subregion: {region} / {subregion}")
+    print(f"Population: {population:,}")
+    print(f"Currency: {first_currency}")
+    print(f"Languages: {languages_str}")
+    print(f"Time Zones: {timezones}")
+    print(f"Flag: {flag}")
+    print("=======================\n")
 
-
-#klk
-
-#gksdioiuytreriooiuytryuioiuyt
