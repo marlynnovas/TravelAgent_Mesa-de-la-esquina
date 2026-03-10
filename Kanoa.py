@@ -62,3 +62,26 @@ def main(page: ft.Page):
     page.window_height = 800
     page.scroll = "auto"
 
+        # References
+    country_input = ft.Ref[ft.TextField]()
+    time_range_dropdown = ft.Ref[ft.Dropdown]()
+    info_section = ft.Ref[ft.Container]()
+    error_box = ft.Ref[ft.Container]()
+
+    def search_country(e):
+
+        country_name = country_input.current.value.strip().lower()
+        selected_range = time_range_dropdown.current.value
+
+        if not country_name:
+            error_box.current.content = ft.Text(
+                "Please enter a country name.",
+                color=ft.Colors.RED
+            )
+            error_box.current.visible = True
+            page.update()
+            return
+
+        response = requests.get(BASE_URL)
+        countries = response.json()
+
