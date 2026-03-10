@@ -44,3 +44,21 @@ def get_country_kpi():
     print(f"Flag: {flag}")
     print("=======================\n")
 
+#def main():
+#     while True:
+#         choice = input("1. Country search & Information \n2. Trip Planning and  Costo estimations \nChoose: ").strip()
+#         if choice == "1":
+#             get_country_kpi()
+#         elif choice == "2":
+#             break
+#         else:
+#             print("Invalid option.")
+
+def main(page: ft.Page):
+    page.title = "CANOA Travel Agency"
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.padding = 20
+    page.window_width = 1200
+    page.window_height = 800
+    page.scroll = "auto"
+
