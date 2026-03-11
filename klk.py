@@ -77,7 +77,7 @@ def main(page: ft.Page):
         idd = country.get("idd", {})
         root = idd.get("root", "")
         suffixes = idd.get("suffixes", [""])
-        country_code = root + suffixes[0] if root else "N/A"
+        country_code = root + suffixes[0] if root and suffixes else "N/A"
         currencies = country.get("currencies", {})
 
         if currencies:
