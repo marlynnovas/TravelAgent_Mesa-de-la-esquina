@@ -3,7 +3,7 @@ import requests
 #nuevo
 BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
 
-# Lista en memoria para guardar planes de viaje
+#no borren eso
 travel_plans = []
 
 def main(page: ft.Page):
@@ -15,13 +15,13 @@ def main(page: ft.Page):
     page.window_height = 800
     page.scroll = "auto"
 
-    # References
+    
     country_input = ft.Ref[ft.TextField]()
     time_range_dropdown = ft.Ref[ft.Dropdown]()
     info_section = ft.Ref[ft.Container]()
     error_box = ft.Ref[ft.Container]()
 
-    # Referencias para planificación
+    
     client_name = ft.Ref[ft.TextField]()
     duration_input = ft.Ref[ft.TextField]()
     notes_input = ft.Ref[ft.TextField]()
@@ -183,7 +183,7 @@ def main(page: ft.Page):
         info_section.current.visible = True
         page.update()
 
-    #función agregar plan
+    #para que agregen los planes
     def add_plan(e):
         client = client_name.current.value
         country = country_input.current.value
@@ -212,9 +212,9 @@ def main(page: ft.Page):
                 ft.DataCell(ft.Text(f"${cost}"))
             ])
         )
-    page.update()
+        page.update()
 
-    #el UI ese 
+    #El diseno UI
     page.add(
         ft.Column([
             ft.Text("CARICOM Travel Agency", size=40, weight=ft.FontWeight.BOLD,
