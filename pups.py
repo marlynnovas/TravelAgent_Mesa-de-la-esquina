@@ -225,7 +225,8 @@ def main(page: ft.Page):
                     expand=True
                 ),
 
-            ], spacing=15),
+                ], spacing=15),
+        ])
 
         info_section.current.visible = True
         page.update()
