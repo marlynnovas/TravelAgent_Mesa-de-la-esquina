@@ -93,7 +93,7 @@ def main(page: ft.Page):
             if country.get("timezones"):
                 tz = country["timezones"][0]
                 time_api = f"http://worldtimeapi.org/api/timezone/{tz}"
-                time_data = requests.get(time_api).json()
+                time_data = requests.get(time_api)
                 local_time = time_data.get("datetime", "N/A")
             else:
                 local_time = "N/A"
