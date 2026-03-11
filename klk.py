@@ -87,8 +87,7 @@ def main(page: ft.Page):
 
         languages = country.get("languages", {})
         if languages:
-            lang_list = [v if isinstance(v, str) else v.get("name","N/A") for v in languages.values()]
-            languages_str = ", ".join(lang_list)
+            languages_str = ", ".join(languages.values())
         else:
             languages_str = "N/A"
 
