@@ -164,10 +164,25 @@ def main(page: ft.Page):
                 ]), padding=20, bgcolor=ft.Colors.PURPLE_50, border_radius=12, expand=True),
             ], spacing=15),
             ft.Container(height=15),
-            ft.Text(f"Languages: {languages_str}", size=14),
-            ft.Text(f"Time Zones: {timezones}", size=14),
-            ft.Text(f"Weather: {temperature}°C | Wind {windspeed} km/h", size=14),
-        ], spacing=15)
+
+            ft.Row([
+                ft.Container(content=ft.Column([
+                    ft.Text("Languages", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(languages_str, size=16, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.ORANGE_50, border_radius=12, expand=True),
+
+                ft.Container(content=ft.Column([
+                    ft.Text("Time Zones", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(timezones, size=16, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.TEAL_50, border_radius=12, expand=True),
+
+                ft.Container(content=ft.Column([
+                    ft.Text("Weather", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(f"{temperature}°C | Wind {windspeed} km/h", size=16, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.AMBER_50, border_radius=12, expand=True),
+            ], spacing=15),
+
+            ], spacing=15)
 
         info_section.current.visible = True
         page.update()
