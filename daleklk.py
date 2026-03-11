@@ -199,7 +199,7 @@ def main(page: ft.Page):
                 ]), padding=20, bgcolor=ft.Colors.CYAN_50, border_radius=12, expand=True),
 
             ], spacing=15),
-        ], spacing=15),
+            ], spacing=15),
 
         info_section.current.visible = True
         page.update()
