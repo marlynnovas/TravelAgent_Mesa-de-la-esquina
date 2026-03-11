@@ -2,7 +2,7 @@ import flet as ft
 import requests
 from datetime import datetime
 
-BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng"
+BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng,idd"
 
 # Lista en memoria para guardar planes de viaje
 travel_plans = []
