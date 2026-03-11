@@ -181,6 +181,13 @@ def main(page: ft.Page):
                     ft.Text("Currency", size=12, color=ft.Colors.GREY_600),
                     ft.Text(first_currency, size=18, weight=ft.FontWeight.BOLD)
                 ]), padding=20, bgcolor=ft.Colors.PURPLE_50, border_radius=12, expand=True),
+                ft.Container(content=ft.Column([
+                    ft.Text("Country Code", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(country_code, size=18, weight=ft.FontWeight.BOLD)
+                 ]), padding=20, bgcolor=ft.Colors.LIGHT_GREEN_50, border_radius=12, expand=True),
+
+
+
             ], spacing=15),
             ft.Container(height=15),
 
