@@ -36,6 +36,13 @@ def get_country_kpi():
     else:
         first_currency = "N/A"
 
+    #country code codigo 
+
+    idd = country.get("idd", {})
+    root = idd.get("root", "")
+    suffixes = idd.get("suffixes", [""])
+    country_code = root + suffixes[0] if root else "N/A"
+
     languages = country.get("languages", {})
     if languages:
         lang_list = [v if isinstance(v, str) else v.get("name","N/A") for v in languages.values()]
