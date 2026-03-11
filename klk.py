@@ -1,7 +1,8 @@
 import flet as ft
 import requests
+from datetime import datetime
 
-BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
+BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng,idd"
 
 # Lista en memoria para guardar planes de viaje
 travel_plans = []
@@ -72,8 +73,13 @@ def main(page: ft.Page):
         subregion = country.get("subregion", "N/A")
         population = country.get("population", 0)
         timezones = ", ".join(country.get("timezones", []))
-
+        
+        idd = country.get("idd", {})
+        root = idd.get("root", "")
+        suffixes = idd.get("suffixes", [""])
+        country_code = root + suffixes[0] if root else "N/A"
         currencies = country.get("currencies", {})
+
         if currencies:
             first_currency = list(currencies.values())[0].get("name", "N/A")
         else:
