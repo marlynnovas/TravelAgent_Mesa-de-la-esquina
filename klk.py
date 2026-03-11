@@ -193,7 +193,7 @@ def main(page: ft.Page):
             days = 0
         notes = notes_input.current.value
 
-        cost = days * 100 + 200 + 150
+        cost = days * 100 + 200 + 150 
 
         travel_plans.append({
             "client": client,
