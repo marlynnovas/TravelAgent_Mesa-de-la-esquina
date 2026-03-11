@@ -192,14 +192,18 @@ def main(page: ft.Page):
                     ft.Text("Weather", size=12, color=ft.Colors.GREY_600),
                     ft.Text(f"{temperature}°C | Wind {windspeed} km/h", size=16, weight=ft.FontWeight.BOLD)
                 ]), padding=20, bgcolor=ft.Colors.AMBER_50, border_radius=12, expand=True),
+            ], spacing=15),
 
                 ft.Container(content=ft.Column([
                     ft.Text("Local Time", size=12, color=ft.Colors.GREY_600),
-                    ft.Text(current_time, size=16, weight=ft.FontWeight.BOLD)
-                ]), padding=20, bgcolor=ft.Colors.CYAN_50, border_radius=12, expand=True),
+                    ft.Text(current_time, size=18, weight=ft.FontWeight.BOLD)
+                ]),
+                    padding=20,
+                    bgcolor=ft.Colors.CYAN_50,
+                    border_radius=12
+                ),
 
-            ], spacing=15),
-            ], spacing=15),
+                ], spacing=15)
 
         info_section.current.visible = True
         page.update()
