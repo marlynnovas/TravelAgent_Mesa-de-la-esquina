@@ -184,7 +184,7 @@ def main(page: ft.Page):
                 ft.Container(content=ft.Column([
                     ft.Text("Country Code", size=12, color=ft.Colors.GREY_600),
                     ft.Text(country_code, size=18, weight=ft.FontWeight.BOLD)
-                 ]), padding=20, bgcolor=ft.Colors.LIGHT_GREEN_50, border_radius=12, expand=True),
+                ]), padding=20, bgcolor=ft.Colors.LIGHT_GREEN_50, border_radius=12, expand=True),
 
 
 
