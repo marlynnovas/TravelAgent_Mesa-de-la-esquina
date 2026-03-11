@@ -1,7 +1,7 @@
 import flet as ft
 import requests
-#bnnnnnbb
-BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
+
+BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng"
 
 # Lista en memoria para guardar planes de viaje
 travel_plans = []
@@ -118,6 +118,16 @@ def main(page: ft.Page):
         population = country.get("population", 0)
         timezones = ", ".join(country.get("timezones", []))
 
+        latlng = country.get("latlng", [0, 0])
+        lat = latlng[0]
+        lon = latlng[1]
+
+        weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
+        weather_data = requests.get(weather_url).json()
+
+        temperature = weather_data.get("current_weather", {}).get("temperature", "N/A")
+        windspeed = weather_data.get("current_weather", {}).get("windspeed", "N/A")
+
         currencies = country.get("currencies", {})
         if currencies:
             first_currency = list(currencies.values())[0].get("name", "N/A")
@@ -156,6 +166,7 @@ def main(page: ft.Page):
             ft.Container(height=15),
             ft.Text(f"Languages: {languages_str}", size=14),
             ft.Text(f"Time Zones: {timezones}", size=14),
+            ft.Text(f"Weather: {temperature}°C | Wind {windspeed} km/h", size=14),
         ], spacing=15)
 
         info_section.current.visible = True
