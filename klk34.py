@@ -92,13 +92,11 @@ def main(page: ft.Page):
         try:
             if country.get("timezones"):
                 tz = country["timezones"][0]
-                time_api = f"http://worldtimeapi.org/api/timezone/{tz}"
-                time_data = requests.get(time_api).json()
-                local_time = time_data.get("datetime", "N/A")
             else:
-                local_time = "N/A"
+               local_time = "N/A"
         except:
             local_time = "Time not available"
+
 
         info_section.current.content = ft.Column([
 
