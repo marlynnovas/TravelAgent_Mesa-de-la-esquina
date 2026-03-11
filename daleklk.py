@@ -1,7 +1,8 @@
 import flet as ft
 import requests
+from datetime import datetime
 
-BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
+BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng,idd"
 
 # Lista en memoria para guardar planes de viaje
 travel_plans = []
@@ -31,7 +32,7 @@ def main(page: ft.Page):
     def search_country(e):
 
         country_name = country_input.current.value.strip().lower()
-        selected_range = time_range_dropdown.current.value
+        selected_range = time_range_dropdown.current.value or "Not selected"
 
         if not country_name:
             error_box.current.content = ft.Text(
@@ -72,6 +73,21 @@ def main(page: ft.Page):
         subregion = country.get("subregion", "N/A")
         population = country.get("population", 0)
         timezones = ", ".join(country.get("timezones", []))
+        latlng = country.get("latlng", [0, 0])
+        lat = latlng[0]
+        lon = latlng[1]
+
+        idd = country.get("idd", {})
+        root = idd.get("root", "")
+        suffixes = idd.get("suffixes", [""])
+        country_code = root + suffixes[0] if root and suffixes else "N/A"
+
+        weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
+
+        weather_response = requests.get(weather_url).json()
+
+        temperature = weather_response.get("current_weather", {}).get("temperature", "N/A")
+        windspeed = weather_response.get("current_weather", {}).get("windspeed", "N/A")
 
         currencies = country.get("currencies", {})
         if currencies:
@@ -168,7 +184,18 @@ def main(page: ft.Page):
                 )
             ], spacing=15),
 
-        ], spacing=15)
+                ft.Container(
+                    content=ft.Column([
+                        ft.Text("Current Weather", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(f"{temperature} °C | Wind {windspeed} km/h", size=14)
+                    ]),
+                    padding=15,
+                    bgcolor=ft.Colors.CYAN_50,
+                    border_radius=12,
+                    expand=True
+                )
+
+            ], spacing=15)
 
         info_section.current.visible = True
         page.update()

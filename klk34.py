@@ -1,6 +1,6 @@
 import flet as ft
 import requests
-
+#bnnnnnbb
 BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
 
 # Lista en memoria para guardar planes de viaje
@@ -64,7 +64,6 @@ def main(page: ft.Page):
         subregion = country.get("subregion", "N/A")
         population = country.get("population", 0)
         timezones = ", ".join(country.get("timezones", []))
-        flag = country.get("flags", {}).get("png", "N/A")
 
         currencies = country.get("currencies", {})
         if currencies:
@@ -129,55 +128,9 @@ def main(page: ft.Page):
                     ft.Text(first_currency, size=18, weight=ft.FontWeight.BOLD)
                 ]), padding=20, bgcolor=ft.Colors.PURPLE_50, border_radius=12, expand=True),
             ], spacing=15),
-
-            ft.Row([
-
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Languages", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(languages_str, size=16, weight=ft.FontWeight.BOLD)
-                    ], spacing=5),
-                    padding=20,
-                    bgcolor=ft.Colors.ORANGE_50,
-                    border_radius=12,
-                    expand=True
-                ),
-
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Time Zones", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(timezones, size=16, weight=ft.FontWeight.BOLD)
-                    ], spacing=5),
-                    padding=20,
-                    bgcolor=ft.Colors.TEAL_50,
-                    border_radius=12,
-                    expand=True
-                ),
-
-               ft.Container(
-                    content=ft.Column([
-                        ft.Text("Weather", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(weather_info, size=16, weight=ft.FontWeight.BOLD)
-                    ], spacing=5),
-                    padding=20,
-                    bgcolor=ft.Colors.YELLOW_50,
-                    border_radius=12,
-                    expand=True
-                ),
-
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Local Time", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(local_time, size=16, weight=ft.FontWeight.BOLD)
-                    ], spacing=5),
-                    padding=20,
-                    bgcolor=ft.Colors.CYAN_50,
-                    border_radius=12,
-                    expand=True
-                ),
-
-            ], spacing=15),
-
+            ft.Container(height=15),
+            ft.Text(f"Languages: {languages_str}", size=14),
+            ft.Text(f"Time Zones: {timezones}", size=14),
         ], spacing=15)
 
         info_section.current.visible = True
