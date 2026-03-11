@@ -79,7 +79,7 @@ def main(page: ft.Page):
         else:
             languages_str = "N/A"
 
-        # Clima y hora local de los paises
+        #clima y hora local de los paises
         weather_info = "N/A"
         local_time = "N/A"
         if capital != "N/A":
@@ -92,13 +92,11 @@ def main(page: ft.Page):
         try:
             if country.get("timezones"):
                 tz = country["timezones"][0]
-                time_api = f"http://worldtimeapi.org/api/timezone/{tz}"
-                time_data = requests.get(time_api).json()
-                local_time = time_data.get("datetime", "N/A")
             else:
-                local_time = "N/A"
+               local_time = "N/A"
         except:
             local_time = "Time not available"
+
 
         info_section.current.content = ft.Column([
 
@@ -183,7 +181,7 @@ def main(page: ft.Page):
         info_section.current.visible = True
         page.update()
 
-    # Función agregar plan
+    #función agregar plan
     def add_plan(e):
         client = client_name.current.value
         country = country_input.current.value
@@ -214,9 +212,9 @@ def main(page: ft.Page):
                 ft.DataCell(ft.Text(f"${cost}"))
             ])
         )
-        page.update()
+    page.update()
 
-    # ===== UI DESIGN ===== 
+    #el UI ese 
     page.add(
         ft.Column([
             ft.Text("CARICOM Travel Agency", size=40, weight=ft.FontWeight.BOLD,
