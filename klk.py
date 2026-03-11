@@ -1,6 +1,6 @@
 import flet as ft
 import requests
-
+#nuevo
 BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
 
 # Lista en memoria para guardar planes de viaje
@@ -27,17 +27,13 @@ def main(page: ft.Page):
     notes_input = ft.Ref[ft.TextField]()
     plans_table = ft.Ref[ft.DataTable]()
 
-    # --- Función búsqueda país ---
     def search_country(e):
 
         country_name = country_input.current.value.strip().lower()
         selected_range = time_range_dropdown.current.value
 
         if not country_name:
-            error_box.current.content = ft.Text(
-                "Please enter a country name.",
-                color=ft.Colors.RED
-            )
+            error_box.current.content = ft.Text("Please enter a country name.", color=ft.Colors.RED)
             error_box.current.visible = True
             page.update()
             return
@@ -54,10 +50,7 @@ def main(page: ft.Page):
         )
 
         if not country:
-            error_box.current.content = ft.Text(
-                "Country not found.",
-                color=ft.Colors.RED
-            )
+            error_box.current.content = ft.Text("Country not found.", color=ft.Colors.RED)
             error_box.current.visible = True
             info_section.current.visible = False
             page.update()
@@ -65,13 +58,13 @@ def main(page: ft.Page):
 
         error_box.current.visible = False
 
-        # Datos
         name = country["name"]["official"]
         capital = country.get("capital", ["N/A"])[0]
         region = country.get("region", "N/A")
         subregion = country.get("subregion", "N/A")
         population = country.get("population", 0)
         timezones = ", ".join(country.get("timezones", []))
+        flag = country.get("flags", {}).get("png", "N/A")
 
         currencies = country.get("currencies", {})
         if currencies:
@@ -86,86 +79,103 @@ def main(page: ft.Page):
         else:
             languages_str = "N/A"
 
-        # UI Output
+        #clima y hora local de los paises
+        weather_info = "N/A"
+        local_time = "N/A"
+        if capital != "N/A":
+            try:
+                weather_api = f"https://wttr.in/{capital}?format=%C+%t"
+                weather_info = requests.get(weather_api).text
+            except:
+                weather_info = "Weather not available"
+
+        try:
+            if country.get("timezones"):
+                tz = country["timezones"][0]
+                time_api = f"http://worldtimeapi.org/api/timezone/{tz}"
+                time_data = requests.get(time_api).json()
+                local_time = time_data.get("datetime", "N/A")
+            else:
+                local_time = "N/A"
+        except:
+            local_time = "Time not available"
+
         info_section.current.content = ft.Column([
 
-            ft.Text(f"Country: {name}",
-                    size=28,
-                    weight=ft.FontWeight.BOLD,
-                    color=ft.Colors.BLUE_700),
-
-            ft.Text(f"Date Range Selected: {selected_range}",
-                    size=14,
-                    color=ft.Colors.GREY_700),
-
+            ft.Text(f"Country: {name}", size=28, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_700),
+            ft.Text(f"Date Range Selected: {selected_range}", size=14, color=ft.Colors.GREY_700),
             ft.Divider(),
 
+            ft.Image(src=flag, width=150, height=100),
+
             ft.Row([
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Capital", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(capital, size=18, weight=ft.FontWeight.BOLD)
-                    ]),
-                    padding=20,
-                    bgcolor=ft.Colors.BLUE_50,
-                    border_radius=12,
-                    expand=True
-                ),
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Region / Subregion", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(f"{region} / {subregion}", size=18, weight=ft.FontWeight.BOLD)
-                    ]),
-                    padding=20,
-                    bgcolor=ft.Colors.GREEN_50,
-                    border_radius=12,
-                    expand=True
-                ),
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Population", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(f"{population:,}", size=18, weight=ft.FontWeight.BOLD)
-                    ]),
-                    padding=20,
-                    bgcolor=ft.Colors.RED_50,
-                    border_radius=12,
-                    expand=True
-                ),
-                ft.Container(
-                    content=ft.Column([
-                        ft.Text("Currency", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(first_currency, size=18, weight=ft.FontWeight.BOLD)
-                    ]),
-                    padding=20,
-                    bgcolor=ft.Colors.PURPLE_50,
-                    border_radius=12,
-                    expand=True
-                ),
+                ft.Container(content=ft.Column([
+                    ft.Text("Capital", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(capital, size=18, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.BLUE_50, border_radius=12, expand=True),
+
+                ft.Container(content=ft.Column([
+                    ft.Text("Region / Subregion", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(f"{region} / {subregion}", size=18, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.GREEN_50, border_radius=12, expand=True),
+
+                ft.Container(content=ft.Column([
+                    ft.Text("Population", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(f"{population:,}", size=18, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.RED_50, border_radius=12, expand=True),
+
+                ft.Container(content=ft.Column([
+                    ft.Text("Currency", size=12, color=ft.Colors.GREY_600),
+                    ft.Text(first_currency, size=18, weight=ft.FontWeight.BOLD)
+                ]), padding=20, bgcolor=ft.Colors.PURPLE_50, border_radius=12, expand=True),
             ], spacing=15),
 
-            ft.Container(height=15),
-
             ft.Row([
+
                 ft.Container(
                     content=ft.Column([
                         ft.Text("Languages", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(languages_str, size=14)
-                    ]),
-                    padding=15,
+                        ft.Text(languages_str, size=16, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
                     bgcolor=ft.Colors.ORANGE_50,
                     border_radius=12,
                     expand=True
                 ),
+
                 ft.Container(
                     content=ft.Column([
                         ft.Text("Time Zones", size=12, color=ft.Colors.GREY_600),
-                        ft.Text(timezones, size=14)
-                    ]),
-                    padding=15,
+                        ft.Text(timezones, size=16, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
                     bgcolor=ft.Colors.TEAL_50,
                     border_radius=12,
                     expand=True
-                )
+                ),
+
+               ft.Container(
+                    content=ft.Column([
+                        ft.Text("Weather", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(weather_info, size=16, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
+                    bgcolor=ft.Colors.YELLOW_50,
+                    border_radius=12,
+                    expand=True
+                ),
+
+                ft.Container(
+                    content=ft.Column([
+                        ft.Text("Local Time", size=12, color=ft.Colors.GREY_600),
+                        ft.Text(local_time, size=16, weight=ft.FontWeight.BOLD)
+                    ], spacing=5),
+                    padding=20,
+                    bgcolor=ft.Colors.CYAN_50,
+                    border_radius=12,
+                    expand=True
+                ),
+
             ], spacing=15),
 
         ], spacing=15)
@@ -173,7 +183,7 @@ def main(page: ft.Page):
         info_section.current.visible = True
         page.update()
 
-    # --- Función agregar plan ---
+    #función agregar plan
     def add_plan(e):
         client = client_name.current.value
         country = country_input.current.value
@@ -183,7 +193,6 @@ def main(page: ft.Page):
             days = 0
         notes = notes_input.current.value
 
-        # Reglas de costo
         cost = days * 100 + 200 + 150
 
         travel_plans.append({
@@ -203,93 +212,55 @@ def main(page: ft.Page):
                 ft.DataCell(ft.Text(f"${cost}"))
             ])
         )
-        page.update()
+    page.update()
 
-    # ===== UI DESIGN =====
+    #el UI ese 
     page.add(
-        ft.Tabs(
-            selected_index=0,
-            tabs=[
-                ft.Tab(
-                    text="Country Search",
-                    content=ft.Column([
-                        ft.Text("CARICOM Travel Agency",
-                                size=40,
-                                weight=ft.FontWeight.BOLD,
-                                color=ft.Colors.BLUE_700,
-                                text_align=ft.TextAlign.CENTER),
+        ft.Column([
+            ft.Text("CARICOM Travel Agency", size=40, weight=ft.FontWeight.BOLD,
+                    color=ft.Colors.BLUE_700, text_align=ft.TextAlign.CENTER),
 
-                        ft.Text("Explore destinations and discover detailed country insights",
-                                size=16,
-                                color=ft.Colors.GREY_600,
-                                text_align=ft.TextAlign.CENTER),
+            ft.Text("Explore Caribbean destinations and discover detailed country insights",
+                    size=16, color=ft.Colors.GREY_600, text_align=ft.TextAlign.CENTER),
 
-                        ft.Container(height=20),
+            ft.Container(height=20),
 
-                        ft.Row([
-                            ft.TextField(
-                                ref=country_input,
-                                label="Country Name",
-                                width=300,
-                                on_submit=search_country
-                            ),
-                            ft.Dropdown(
-                                ref=time_range_dropdown,
-                                label="Time Range",
-                                width=180,
-                                value="30 days",
-                                options=[
-                                    ft.dropdown.Option("1 week"),
-                                    ft.dropdown.Option("30 days"),
-                                    ft.dropdown.Option("90 days"),
-                                    ft.dropdown.Option("1 year"),
-                                ]
-                            ),
-                            ft.ElevatedButton(
-                                "Look for Country",
-                                icon=ft.Icons.SEARCH,
-                                on_click=search_country
-                            ),
-                        ], alignment=ft.MainAxisAlignment.CENTER, spacing=15),
+            ft.Row([
+                ft.TextField(ref=country_input, label="Country Name", width=300, on_submit=search_country),
+                ft.Dropdown(ref=time_range_dropdown, label="Time Range", width=180, value="30 days",
+                            options=[ft.dropdown.Option("1 week"), ft.dropdown.Option("30 days"),
+                                     ft.dropdown.Option("90 days"), ft.dropdown.Option("1 year")]),
+                ft.ElevatedButton("Look for Country", icon=ft.Icons.SEARCH, on_click=search_country),
+            ], alignment=ft.MainAxisAlignment.CENTER, spacing=15),
 
-                        ft.Container(height=30),
+            ft.Container(height=30),
+            ft.Container(ref=error_box, visible=False),
+            ft.Container(ref=info_section, visible=False),
 
-                        ft.Container(ref=error_box, visible=False),
-                        ft.Container(ref=info_section, visible=False)
-                    ])
-                ),
-                ft.Tab(
-                    text="Trip Planning",
-                    content=ft.Column([
-                        ft.Text("Plan a Client Trip",
-                                size=28,
-                                weight=ft.FontWeight.BOLD,
-                                color=ft.Colors.BLUE_700),
-
-                        ft.TextField(ref=client_name, label="Client Name", width=300),
-                        ft.TextField(ref=duration_input, label="Duration (days)", width=200),
-                        ft.TextField(ref=notes_input, label="Notes / Requirements", width=400),
-
-                        ft.ElevatedButton("Add to Plan", icon=ft.Icons.ADD, on_click=add_plan),
-
-                        ft.Container(height=20),
-
-                        ft.DataTable(
-                            ref=plans_table,
-                            columns=[
-                                ft.DataColumn(ft.Text("Client")),
-                                ft.DataColumn(ft.Text("Country")),
-                                ft.DataColumn(ft.Text("Days")),
-                                ft.DataColumn(ft.Text("Notes")),
-                                ft.DataColumn(ft.Text("Estimated Cost")),
-                            ],
-                            rows=[]
-                        )
-                    ])
-                )
-            ]
-        )
+           
+            ft.Divider(),
+            ft.Text("Trip Planning", size=28, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_700),
+            ft.TextField(ref=client_name, label="Client Name", width=300),
+            ft.TextField(ref=duration_input, label="Duration (days)", width=200),
+            ft.TextField(ref=notes_input, label="Notes / Requirements", width=400),
+            ft.ElevatedButton("Add to Plan", icon=ft.Icons.ADD, on_click=add_plan),
+            ft.Container(height=20),
+            ft.DataTable(
+                ref=plans_table,
+                columns=[
+                    ft.DataColumn(ft.Text("Client")),
+                    ft.DataColumn(ft.Text("Country")),
+                    ft.DataColumn(ft.Text("Days")),
+                    ft.DataColumn(ft.Text("Notes")),
+                    ft.DataColumn(ft.Text("Estimated Cost")),
+                ],
+                rows=[]
+            )
+        ],
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        spacing=10)
     )
 
 if __name__ == "__main__":
     ft.app(target=main)
+
