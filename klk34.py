@@ -79,7 +79,7 @@ def main(page: ft.Page):
         else:
             languages_str = "N/A"
 
-        # Clima y hora local usando APIs públicas
+        # Clima y hora local de los paises
         weather_info = "N/A"
         local_time = "N/A"
         if capital != "N/A":
@@ -183,7 +183,7 @@ def main(page: ft.Page):
         info_section.current.visible = True
         page.update()
 
-    # --- Función agregar plan ---
+    # Función agregar plan
     def add_plan(e):
         client = client_name.current.value
         country = country_input.current.value
@@ -237,7 +237,7 @@ def main(page: ft.Page):
             ft.Container(ref=error_box, visible=False),
             ft.Container(ref=info_section, visible=False),
 
-            # --- BLOQUE EXTRA: Trip Planning ---
+           
             ft.Divider(),
             ft.Text("Trip Planning", size=28, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_700),
             ft.TextField(ref=client_name, label="Client Name", width=300),
