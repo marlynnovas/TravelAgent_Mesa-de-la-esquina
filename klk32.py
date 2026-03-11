@@ -1,6 +1,6 @@
 import flet as ft
 import requests
-#nuevo
+
 BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
 
 # Lista en memoria para guardar planes de viaje
