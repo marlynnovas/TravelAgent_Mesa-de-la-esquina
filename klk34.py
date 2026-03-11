@@ -191,7 +191,9 @@ def main(page: ft.Page):
             days = 0
         notes = notes_input.current.value
 
-        cost = days * 100 + 200 + 150
+        #calculos
+
+        cost = days * 100 + 200 + 150 # dia x costo base + costo fijo + costos adicionales (promedio)
 
         travel_plans.append({
             "client": client,
@@ -261,4 +263,3 @@ def main(page: ft.Page):
 
 if __name__ == "__main__":
     ft.app(target=main)
-
