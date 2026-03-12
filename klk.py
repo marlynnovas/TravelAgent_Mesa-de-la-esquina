@@ -1,5 +1,6 @@
 import flet as ft
 import requests
+from datetime import datetime, timedelta, timezone
 #nuevo
 BASE_URL = "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,currencies,languages,flags,timezones"
 
@@ -92,9 +93,10 @@ def main(page: ft.Page):
         try:
             if country.get("timezones"):
                 tz = country["timezones"][0]
-                time_api = f"http://worldtimeapi.org/api/timezone/{tz}"
-                time_data = requests.get(time_api)
-                local_time = time_data.get("datetime", "N/A")
+                sign = 1 if "+" in tz else -1
+                hours = int(tz.split("+" if "+" in tz else "-")[1].split(":")[0]) #cambio 
+                offset = timezone(timedelta(hours=sign * hours))
+                local_time = datetime.now(offset).strftime("%H:%M:%S") #hora minuto segundo 
             else:
                 local_time = "N/A"
         except:
@@ -192,6 +194,14 @@ def main(page: ft.Page):
         except:
             days = 0
         notes = notes_input.current.value
+        if days <= 0: # codigo para que no poner numeros negativos no le aparece nada porq necesita un numero mayor de 0 
+            error_box.current.content = ft.Text(
+                "Duration must be greater than 0 days.",
+                color=ft.Colors.RED
+            )
+            error_box.current.visible = True
+            page.update()
+            return
 
         cost = days * 100 + 200 + 150 
 
