@@ -28,8 +28,7 @@ def main(page: ft.Page):
     notes_input = ft.Ref[ft.TextField]()
     plans_table = ft.Ref[ft.DataTable]()
 
-    start_date_text = ft.Ref[ft.TextField]()
-    end_date_text = ft.Ref[ft.TextField]()
+    
 
     def search_country(e):
 
@@ -197,21 +196,6 @@ def main(page: ft.Page):
         except:
             days = 0
         notes = notes_input.current.value
-        start_date = start_date_text.current.value
-        end_date = end_date_text.current.value
-
-        try:
-            datetime.strptime(start_date, "%Y-%m-%d")
-            datetime.strptime(end_date, "%Y-%m-%d")
-        except:
-            error_box.current.content = ft.Text(
-                "Dates must be in format YYYY-MM-DD",
-                color=ft.Colors.RED
-            )
-            error_box.current.visible = True
-            page.update()
-            return
-
         if days <= 0: # codigo para que no poner numeros negativos no le aparece nada porq necesita un numero mayor de 0 
             error_box.current.content = ft.Text(
                 "Duration must be greater than 0 days.",
@@ -228,17 +212,13 @@ def main(page: ft.Page):
             "country": country,
             "days": days,
             "notes": notes,
-            "cost": cost,
-            "start_date": start_date,
-            "end_date": end_date
+            "cost": cost
         })
 
         plans_table.current.rows.append(
             ft.DataRow(cells=[
                 ft.DataCell(ft.Text(client)),
                 ft.DataCell(ft.Text(country)),
-                ft.DataCell(ft.Text(start_date)),
-                ft.DataCell(ft.Text(end_date)),
                 ft.DataCell(ft.Text(str(days))),
                 ft.DataCell(ft.Text(notes)),
                 ft.DataCell(ft.Text(f"${cost}"))
@@ -275,17 +255,6 @@ def main(page: ft.Page):
             ft.TextField(ref=client_name, label="Client Name", width=300),
             ft.TextField(ref=duration_input, label="Duration (days)", width=200),
             ft.TextField(ref=notes_input, label="Notes / Requirements", width=400),
-            ft.TextField(
-                ref=start_date_text,
-                label="Start Date (YYYY-MM-DD)",
-                width=200
-            ),
-
-            ft.TextField(
-                ref=end_date_text,
-                label="End Date (YYYY-MM-DD)",
-                width=200
-            ),
             ft.ElevatedButton("Add to Plan", icon=ft.Icons.ADD, on_click=add_plan),
             ft.Container(height=20),
             ft.DataTable(
@@ -293,8 +262,6 @@ def main(page: ft.Page):
                 columns=[
                     ft.DataColumn(ft.Text("Client")),
                     ft.DataColumn(ft.Text("Country")),
-                    ft.DataColumn(ft.Text("Start Date")),
-                    ft.DataColumn(ft.Text("End Date")),
                     ft.DataColumn(ft.Text("Days")),
                     ft.DataColumn(ft.Text("Notes")),
                     ft.DataColumn(ft.Text("Estimated Cost")),
